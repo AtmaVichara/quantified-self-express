@@ -48,5 +48,28 @@ describe('API Routes', () => {
 
   })
 
+  describe("GET /api/v1/foods/:id", () => {
+
+    it("should return food based on id", () => {
+      return chai.request(server)
+        .get('/api/v1/foods/1')
+        .then((response) => {
+          response.should.have.status(200);
+          response.body[0].should.be.a('object')
+          response.body[0].name.should.equal('Apple');
+          response.body[0].calories.should.equal(120);
+          response.body[0].id.should.equal(1);
+        });
+    });
+
+    it("should return 404", () => {
+      return chai.request(server)
+        .get('/api/v1/foods/55')
+        .then((response) => {
+          response.should.have.status(404);
+        });
+    });
+  });
+
 
 });
