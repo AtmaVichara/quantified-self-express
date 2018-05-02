@@ -11,4 +11,17 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/:id', (req, res) => {
+  id = req.params.id
+
+  database.raw(`SELECT * FROM foods WHERE id=?`, [id])
+    .then((food) => {
+      if(food.rows.length === 0){
+        res.sendStatus(404);
+      } else {
+        res.json(food.rows);
+      }
+    })
+})
+
 module.exports = router;
