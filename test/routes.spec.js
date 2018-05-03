@@ -159,6 +159,36 @@ describe('API Routes', () => {
           response.body.length.should.equal(4)
           response.body[0].name.should.equal('breakfast')
           response.body[0].foods.length.should.equal(2)
+          response.body[0].foods[0].name.should.equal('Apple')
+        })
+        .catch((error) => {
+          throw error;
+        })
+    })
+  })
+
+  describe("GET /api/v1/meals/:meal_id/foods", () => {
+    it("returns meal and all foods associated", () => {
+      return chai.request(server)
+        .get('/api/v1/meals/1/foods')
+        .then((response) => {
+          response.should.have.status(200)
+          response.body.should.a('object')
+          response.body.id.should.equal(1)
+          response.body.foods.length.should.equal(2)
+          response.body.foods[0].name.should.equal('Apple')
+          response.body.name.should.equal('breakfast')
+        })
+        .catch((error) => {
+          throw error;
+        })
+    })
+
+    it("returns 404 for meal that does not exist", () => {
+      return chai.request(server)
+        .get('/api/v1/meals/343/foods')
+        .then((response) => {
+          response.should.have.status(404)
         })
         .catch((error) => {
           throw error;

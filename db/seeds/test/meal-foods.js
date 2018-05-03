@@ -1,7 +1,7 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('meal_foods').del()
+  return knex.raw('TRUNCATE meal_foods RESTART IDENTITY')
     .then(function () {
       // Inserts seed entries
       return knex('meal_foods').insert([
