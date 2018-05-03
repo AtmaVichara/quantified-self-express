@@ -1,27 +1,35 @@
 var express = require('express');
 var router = express.Router();
-const environment = process.env.NODE_ENV || 'development'
-const configuration = require('../knexfile')[environment]
-const database = require('knex')(configuration)
+var Food = require('../models/food')
 
 router.get('/', (req, res) => {
-  database.raw(`SELECT * FROM foods`)
+  Food.all()
     .then((foods) => {
-      res.json(foods.rows)
+      res.json(foods)
     })
+    .catch((error) => res.sendStatus(500).json({error}))
 })
 
 router.get('/:id', (req, res) => {
   id = req.params.id
 
-  database.raw(`SELECT * FROM foods WHERE id=?`, [id])
+  Food.find(id)
     .then((food) => {
-      if(food.rows.length === 0){
-        res.sendStatus(404);
+      if(food.length === 0) {
+        res.sendStatus(404)
       } else {
-        res.json(food.rows);
+        res.json(food)
       }
     })
 })
+
+router.post('/', (req, res) => {
+  attributes = req.body.foods
+  Food.create(attributes)
+    .then((food) => { res.json(food) })
+    .catch((error) => res.sendStatus(500).json( {error }))
+})
+
+
 
 module.exports = router;
