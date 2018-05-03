@@ -71,5 +71,26 @@ describe('API Routes', () => {
     });
   });
 
+  describe("POST /api/v1/foods", () => {
+    it("should create new food and return food", () => {
+      return chai.request(server)
+        .post('/api/v1/foods')
+        .send({foods: {
+          name: 'Chia Seeds',
+          calories: 120
+        }})
+        .then((response) => {
+          response.should.have.status(200)
+          response.body.length.should.equal(1)
+          response.body[0].should.be.a('object')
+          response.body[0].name.should.equal('Chia Seeds')
+          response.body[0].calories.should.equal(120)
+        })
+        .catch((error) => {
+          throw error;
+        });
+    })
+  })
+
 
 });
