@@ -15,6 +15,11 @@ class Food {
   static create(attributes) {
     return database('foods').insert(attributes).returning('*')
   }
+
+  static update(id, attributes) {
+    return database('foods').where('id', id).update(attributes).returning('*')
+  }
+
 }
 
 module.exports = Food

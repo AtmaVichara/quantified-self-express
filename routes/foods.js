@@ -30,6 +30,19 @@ router.post('/', (req, res) => {
     .catch((error) => res.sendStatus(500).json( {error }))
 })
 
+router.patch('/:id', (req, res) => {
+  id = req.params.id
+  attributes = req.body.foods
+  Food.update(id, attributes)
+    .then((food) => {
+      if(food.length === 0) {
+        res.sendStatus(404)
+      } else {
+        res.json(food)
+      }
+    })
+    .catch((error) => res.sendStatus(500).json( {error} ))
+})
 
 
 module.exports = router;
