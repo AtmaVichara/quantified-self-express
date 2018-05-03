@@ -44,5 +44,19 @@ router.patch('/:id', (req, res) => {
     .catch((error) => res.sendStatus(500).json( {error} ))
 })
 
+router.delete('/:id', (req, res) => {
+  id = req.params.id
+  Food.find(id)
+    .then((food) => {
+      if(food.length === 0){
+        res.sendStatus(404)
+      } else {
+        Food.destroy(id)
+          .then((response) => res.sendStatus(202))
+      }
+    })
+    .catch((error) => console.log({error}))
+})
+
 
 module.exports = router;

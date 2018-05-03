@@ -20,6 +20,10 @@ class Food {
     return database('foods').where('id', id).update(attributes).returning('*')
   }
 
+  static destroy(id) {
+    return database('foods').where('id', id).del()
+  }
+
 }
 
 module.exports = Food
