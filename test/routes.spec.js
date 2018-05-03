@@ -92,5 +92,40 @@ describe('API Routes', () => {
     })
   })
 
+  describe("PATCH /api/v1/foods/:id", () => {
+    it("should update food", () => {
+      return chai.request(server)
+        .patch('/api/v1/foods/1')
+        .send({foods: {
+          name: 'World Star',
+          calories: 12121212
+        }})
+        .then((response) => {
+          response.should.have.status(200)
+          response.body.length.should.equal(1)
+          response.body[0].should.be.a('object')
+          response.body[0].name.should.equal('World Star')
+          response.body[0].calories.should.equal(12121212)
+        })
+        .catch((error) => {
+          throw error;
+        })
+    })
+
+    it("should return 404 if food does not exist", () => {
+      return chai.request(server)
+        .patch('/api/v1/foods/56')
+        .send({foods: {
+          name: 'World Star',
+          calories: 12121212
+        }})
+        .then((response) => {
+          response.should.have.status(404)
+        })
+    })
+  })
+
+
+
 
 });
