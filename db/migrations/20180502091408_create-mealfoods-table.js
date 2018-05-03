@@ -1,8 +1,9 @@
 
 exports.up = function(knex, Promise) {
   let createQuery = `CREATE TABLE meal_foods(
-    meal_id INTEGER REFERENCES meals,
-    food_id INTEGER REFERENCES foods
+    id SERIAL PRIMARY KEY NOT NULL,
+    meal_id INTEGER,
+    food_id INTEGER
   )`
   return knex.raw(createQuery)
 };

@@ -7,5 +7,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('meal')
+  return knex.schema.dropTable('meals')
 };
