@@ -125,7 +125,26 @@ describe('API Routes', () => {
     })
   })
 
+  describe("DELETE /api/v1/foods/:id", () => {
+    it("should delete food", () => {
+      return chai.request(server)
+        .delete('/api/v1/foods/21')
+        .then((response) => {
+          response.should.have.status(202)
+        })
+        .catch((error) => {
+          throw error;
+        })
+    })
 
+    it("should return 404 if food does not exist" , () => {
+      return chai.request(server)
+        .delete('/api/v1/foods/5675')
+        .then((response) => {
+          response.should.have.status(404)
+        })
+    })
+  })
 
 
 });
