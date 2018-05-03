@@ -40,12 +40,7 @@ describe('API Routes', () => {
           response.body[0].name.should.equal('Apple');
           response.body[0].calories.should.equal(120)
         })
-        .catch((error) => {
-          throw error
-        })
-
     })
-
   })
 
   describe("GET /api/v1/foods/:id", () => {
@@ -93,6 +88,7 @@ describe('API Routes', () => {
   })
 
   describe("PATCH /api/v1/foods/:id", () => {
+
     it("should update food", () => {
       return chai.request(server)
         .patch('/api/v1/foods/1')
@@ -122,10 +118,14 @@ describe('API Routes', () => {
         .then((response) => {
           response.should.have.status(404)
         })
+        .catch((error) => {
+          throw error;
+        })
     })
   })
 
   describe("DELETE /api/v1/foods/:id", () => {
+
     it("should delete food", () => {
       return chai.request(server)
         .delete('/api/v1/foods/21')
@@ -143,8 +143,26 @@ describe('API Routes', () => {
         .then((response) => {
           response.should.have.status(404)
         })
+        .catch((error) => {
+          throw error;
+        })
     })
   })
 
+  describe("GET /api/v1/meals", () => {
 
+    it("should return all meals", () => {
+      return chai.request(server)
+        .get('/api/v1/meals')
+        .then((response) => {
+          response.should.have.status(200)
+          response.body.length.should.equal(4)
+          response.body[0].name.should.equal('breakfast')
+          response.body[0].foods.length.should.equal(2)
+        })
+        .catch((error) => {
+          throw error;
+        })
+    })
+  })
 });
