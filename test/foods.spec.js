@@ -6,7 +6,6 @@ const environment = process.env.NODE_ENV || 'test'
 const configuration = require('../knexfile')[environment]
 const database = require('knex')(configuration)
 
-
 chai.use(chaiHttp);
 
 describe('API Routes', () => {
@@ -28,6 +27,7 @@ describe('API Routes', () => {
       })
       .done()
   })
+
 
   describe("GET /api/v1/foods" , () => {
 
@@ -148,21 +148,4 @@ describe('API Routes', () => {
         })
     })
   })
-
-  describe("GET /api/v1/meals", () => {
-
-    it("should return all meals", () => {
-      return chai.request(server)
-        .get('/api/v1/meals')
-        .then((response) => {
-          response.should.have.status(200)
-          response.body.length.should.equal(4)
-          response.body[0].name.should.equal('breakfast')
-          response.body[0].foods.length.should.equal(2)
-        })
-        .catch((error) => {
-          throw error;
-        })
-    })
-  })
-});
+})
