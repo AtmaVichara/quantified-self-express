@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var foodsController = require('../../../controllers/api/v1/foods-controller')
 var Food = require('../../../models/food')
+var cors = require('cors')
+
+app.use(cors())
 
 router.get('/', (req, res) => {
   foodsController.index(req, res)
