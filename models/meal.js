@@ -5,28 +5,23 @@ const database = require('knex')(configuration)
 class Meal {
 
   static all() {
-    return database.raw(`
-      SELECT meals.*, json_agg(foods.*)
-      AS foods FROM meals
-      INNER JOIN meal_foods ON meals.id = meal_foods.meal_id
-      INNER JOIN foods ON meal_foods.food_id = foods.id
-      GROUP BY meals.id
-      ORDER BY id
-    `)
-    .then((meals) => meals.rows)
+    return database('meals')
+      .select("meals.*", database.raw('json_agg(foods.*) as foods'))
+      .leftJoin('meal_foods', 'meals.id', 'meal_foods.meal_id')
+      .leftJoin('foods', 'meal_foods.meal_id', 'foods.id')
+      .groupBy('meals.id')
+      .then((meals) => meals)
   }
 
   static find(id) {
-    return database.raw(`
-      SELECT meals.*, json_agg(foods.*)
-      AS foods FROM meals
-      INNER JOIN meal_foods ON meals.id = meal_foods.meal_id
-      INNER JOIN foods ON meal_foods.food_id = foods.id
-      WHERE meals.id = ?
-      GROUP BY meals.id
-    `, [id])
-    .then((meal) => meal.rows[0])
-    .catch((error) => console.log( {error} ))
+    return database('meals')
+      .select("meals.*", database.raw('json_agg(foods.*) as foods'))
+      .leftJoin('meal_foods', 'meals.id', 'meal_foods.meal_id')
+      .leftJoin('foods', 'meal_foods.meal_id', 'foods.id')
+      .where("meals.id", id)
+      .groupBy('meals.id')
+      .then((meal) => meal[0])
+      .catch((error) => console.log( {error} ))
   }
 
 }
